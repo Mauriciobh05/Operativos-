@@ -30,9 +30,9 @@ double f(int i) {
 
 int main(int argc, char *argv[]) {
 
-    // Se validan los argumentos,  se espera solo un argumento (número de hilos)
-    if (argc != 2) {
-        printf("Error\n\tUso correcto: ./ejecutable numHilos\n");
+    // Se validan los argumentos: número de hilos y opcionalmente repeticiones
+    if (argc < 2) {
+        printf("Error\n\tUso correcto: ./ejecutable numHilos [numIteraciones]\n");
         return -1;
     }
 
@@ -40,10 +40,14 @@ int main(int argc, char *argv[]) {
     int numHilos = atoi(argv[1]);
     omp_set_num_threads(numHilos); // Se fija el número de hilos activos
 
+    // Se crea y se proporciona un segundo argumento, se usa como límite de iteraciones
+    int n = (argc == 3) ? atoi(argv[2]) : 30000;  // El valor por defecto es de 30000
+
     double sum = 0.0;  // Se crea la variable global donde se acumula la suma total
-    int i, n = 30000;  // Se ctrea el límite superior de la sumatoria
+    int i;
 
     printf("OpenMP ejecutando con %d hilos\n", numHilos);
+    printf("Número de iteraciones: %d\n", n);
 
     // Región paralela
     #pragma omp parallel
