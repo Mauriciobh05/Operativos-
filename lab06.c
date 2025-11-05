@@ -46,8 +46,8 @@ double f(int i) {
 
 int main(int argc, char *argv[]) {
     // Se verificación los argumento osea los numeros de hilos 
-    if (argc != 2) {
-        printf("Uso: ./lab05 numHilos\n");
+    if (argc < 2) {
+        printf("Uso: ./lab06 numHilos [numIteraciones]\n");
         return -1;
     }
 
@@ -55,10 +55,13 @@ int main(int argc, char *argv[]) {
     int numHilos = atoi(argv[1]);
     omp_set_num_threads(numHilos);
 
+    // Se o se proporciona un segundo argumento, se usa como límite de iteraciones
+    int n = (argc == 3) ? atoi(argv[2]) : 30000; // El valor por defecto es 30000
+
     double sum = 0.0; // Se crea el acumulador global con reducción
-    int n = 30000;    // Se crea el límite de la sumatoria
 
     printf("OpenMP ejecutando con %d hilos\n", numHilos);
+    printf("Número de iteraciones: %d\n", n);
 
     // Se inicia la medición del tiempo
     InicioMuestra();
